@@ -1,4 +1,4 @@
-package com.damytec.desafiocielo.model.dto;
+package com.damytec.desafiocielo.util.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

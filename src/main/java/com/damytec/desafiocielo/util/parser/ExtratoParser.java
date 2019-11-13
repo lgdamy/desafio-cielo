@@ -2,6 +2,8 @@ package com.damytec.desafiocielo.util.parser;
 
 import com.damytec.desafiocielo.model.dto.*;
 import com.damytec.desafiocielo.model.entity.ExtratoRegistroEntity;
+import com.damytec.desafiocielo.util.enums.SiglaSituacaoRemessa;
+import com.damytec.desafiocielo.util.enums.SiglaTipoOperacao;
 
 public class ExtratoParser {
     public static ExtratoRegistro parseEntity(ExtratoRegistroEntity entity) {

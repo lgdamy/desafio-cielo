@@ -28,22 +28,7 @@ public class CargaService {
 
     @Transactional
     public void realizarCarga(int registros) {
-        BancoEntity abc = new BancoEntity();
-        abc.setCodigo(111);
-        abc.setNome("Banco ABC");
-
-        BancoEntity bb = new BancoEntity();
-        bb.setCodigo(222);
-        bb.setNome("Banco do Brasil");
-
-        BancoEntity seul = new BancoEntity();
-        seul.setCodigo(333);
-        seul.setNome("Banco de Seul");
-
-        List<BancoEntity> bancos = Arrays.asList(abc,bb,seul);
-
-        bancoRepository.saveAll(bancos);
-
+        List<BancoEntity> bancos = this.gerarOuBuscarBancos();
         Random random = new Random();
         long inc = 1L;
         while (registros > 0) {
@@ -51,10 +36,10 @@ public class CargaService {
             ExtratoRegistroEntity registro = new ExtratoRegistroEntity();
             registro.setAgenciaBancaria(random.nextInt(10000));
             registro.setContaCorrente(random.nextInt(10000)+"");
-            registro.setBanco(bancos.get(random.nextInt(3)));
+            registro.setBanco(bancos.get(random.nextInt(bancos.size())));
             registro.setCnpj(this.gerarCnpj());
-            registro.setDataContaCorrente(Date.from(LocalDate.now().plusDays(random.nextInt(20)-10).atStartOfDay(ZoneId.systemDefault()).toInstant()));
-            registro.setDataEfetiva(Date.from(LocalDate.now().plusDays(random.nextInt(21)-10).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            registro.setDataContaCorrente(Date.from(LocalDate.now().minusDays(random.nextInt(20)).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            registro.setDataEfetiva(Date.from(LocalDate.now().minusDays(random.nextInt(20)).atStartOfDay(ZoneId.systemDefault()).toInstant()));
             registro.setDescGrupoPagto("Gr-01");
             registro.setNumeroEvento(inc++);
             registro.setNumeroRemessaBanco(random.nextLong());
@@ -64,6 +49,28 @@ public class CargaService {
             registro.setValor(BigDecimal.valueOf(random.nextInt(10000)).setScale(2).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
             extratoRepository.save(registro);
         }
+    }
+
+    private List<BancoEntity> gerarOuBuscarBancos() {
+        List<BancoEntity> bancos = bancoRepository.findAll();
+
+        if (bancos.isEmpty()) {
+            BancoEntity abc = new BancoEntity();
+            abc.setCodigo(111);
+            abc.setNome("Banco ABC");
+
+            BancoEntity bb = new BancoEntity();
+            bb.setCodigo(222);
+            bb.setNome("Banco do Brasil");
+
+            BancoEntity seul = new BancoEntity();
+            seul.setCodigo(333);
+            seul.setNome("Banco de Seul");
+
+            bancos = Arrays.asList(abc, bb, seul);
+            bancoRepository.saveAll(bancos);
+        }
+        return bancos;
     }
 
     private String gerarCnpj() {

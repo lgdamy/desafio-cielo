@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table
+@Table(name = "EXTRATO_REGISTRO")
 public class ExtratoRegistroEntity {
     @Id
     private String id;
