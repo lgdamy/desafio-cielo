@@ -1,0 +1,56 @@
+<div class="tabela">
+    <table mat-table [dataSource]="registros">
+        <ng-container matColumnDef="dataLancamento">
+            <th mat-header-cell *matHeaderCellDef>Data da Remessa</th>
+            <td mat-cell *matCellDef="let reg"> {{reg.dataEfetivaLancamento}} </td>
+        </ng-container>
+        <ng-container matColumnDef="descricao">
+            <th mat-header-cell *matHeaderCellDef>Descrição</th>
+            <td mat-cell *matCellDef="let reg"> {{reg.lancamentoContaCorrenteCLiente.nomeTipoOperacao}} </td>
+        </ng-container>
+        <ng-container matColumnDef="numero">
+            <th mat-header-cell *matHeaderCellDef>Número</th>
+            <td mat-cell *matCellDef="let reg"> {{reg.lancamentoContaCorrenteCLiente.numeroRemessaBanco}} </td>
+        </ng-container>
+        <ng-container matColumnDef="situacao">
+            <th mat-header-cell *matHeaderCellDef>Situação</th>
+            <td mat-cell *matCellDef="let reg"> {{reg.lancamentoContaCorrenteCLiente.nomeSituacaoRemessa}} </td>
+        </ng-container>
+        <ng-container matColumnDef="dataConfirmacao">
+            <th mat-header-cell *matHeaderCellDef>Data da Confirmação</th>
+            <td mat-cell *matCellDef="let reg"> {{reg.dataLancamentoContaCorrenteCliente}} </td>
+        </ng-container>
+        <ng-container matColumnDef="dadosBancarios">
+            <th mat-header-cell *matHeaderCellDef>Dados Bancários</th>
+            <td mat-cell *matCellDef="let reg"> {{reg.nomeBanco}} Ag {{reg.lancamentoContaCorrenteCLiente.dadosDomiciloBancario.numeroAgencia}} CC {{reg.lancamentoContaCorrenteCLiente.dadosDomiciloBancario.numeroContaCorrente}} </td>
+        </ng-container>
+        <ng-container matColumnDef="valorFinal">
+            <th mat-header-cell *matHeaderCellDef>Valor final</th>
+            <td mat-cell *matCellDef="let reg"> $ {{reg.valorLancamentoRemessa}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator  [pageSizeOptions]="pageSizeOptions"
+                    [length]="length"
+                    [pageIndex]="pageIndex"
+                    [pageSize]="pageSize"
+                    (page)="pageEvent = paginacaoAlterada($event)">
+    </mat-paginator>
+    
+</div>
+<div class="datepicker">
+    <mat-form-field>
+            <input matInput
+                    placeholder="Selecione duas datas"
+                    [satDatepicker]="picker2"
+                    (dateChange)="dataAlterada($event)">
+            <sat-datepicker #picker2 [rangeMode]="true">
+            </sat-datepicker>
+            <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="openDialog()">Gerar registros aleatórios</button>
+</div>
+<section class="mat-typography">
+    <h3>{{sumario}}</h3>
+</section>

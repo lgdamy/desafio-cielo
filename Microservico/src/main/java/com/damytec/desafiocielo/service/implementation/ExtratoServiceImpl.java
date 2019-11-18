@@ -40,13 +40,13 @@ public class ExtratoServiceImpl implements ExtratoService {
         }
 
         Pageable pg = PageRequest.of(pagina,quantidadeRegistros);
-        List<ExtratoRegistroEntity> result = extratoRepository.findByDataEfetivaBetween(ini,end,pg);
+        List<ExtratoRegistroEntity> result = extratoRepository.findByDataEfetivaBetweenOrderByDataEfetiva(ini,end,pg);
         if (result.isEmpty()) {
             throw new StatusException("Nenhum registro encontrado", HttpStatus.NOT_FOUND);
         }
         List<ExtratoRegistro> registros = result.stream().map(e -> ExtratoParser.parseEntity(e)).collect(Collectors.toList());
 
-        List<ExtratoRegistroEntity> fullData= extratoRepository.findByDataEfetivaBetween(ini,end,Pageable.unpaged());
+        List<ExtratoRegistroEntity> fullData= extratoRepository.findByDataEfetivaBetweenOrderByDataEfetiva(ini,end,Pageable.unpaged());
         ExtratoSumario sumario = ExtratoSumario.builder()
                         .quantidadeLancamentos(fullData.stream().mapToInt(e -> e.getQuantidadeRemessa()).sum())
                         .quantidadeRemessas(fullData.size())

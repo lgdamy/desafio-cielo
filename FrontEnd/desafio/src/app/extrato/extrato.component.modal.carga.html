@@ -1,0 +1,10 @@
+<div mat-dialog-content>
+    <p>Escolha a quantidade de registros que serão gerados</p>
+    <mat-form-field>
+        <input matInput [(ngModel)]="data.quantidadeGerados">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button [mat-dialog-close]="data.quantidadeGerados" cdkFocusInitial>Ok</button>
+</div>

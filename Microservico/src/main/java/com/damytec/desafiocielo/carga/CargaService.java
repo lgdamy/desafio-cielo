@@ -17,6 +17,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Esste serviço existe apenas para popular o banco de dados com registros para a consulta, não sendo necessária a
+ * implementação de testes unitários, pois ele efetivamente não pertence ao sistema.
+ */
 @Service
 public class CargaService {
 
@@ -42,7 +46,7 @@ public class CargaService {
             registro.setDataEfetiva(Date.from(LocalDate.now().minusDays(random.nextInt(20)).atStartOfDay(ZoneId.systemDefault()).toInstant()));
             registro.setDescGrupoPagto("Gr-01");
             registro.setNumeroEvento(inc++);
-            registro.setNumeroRemessaBanco(random.nextLong());
+            registro.setNumeroRemessaBanco(Long.valueOf(random.nextInt(1000000000)));
             registro.setSiglaSituacaoRemessa('P');
             registro.setSiglaTipoOperacao('R');
             registro.setQuantidadeRemessa(random.nextInt(20));
@@ -56,18 +60,27 @@ public class CargaService {
 
         if (bancos.isEmpty()) {
             BancoEntity abc = new BancoEntity();
-            abc.setCodigo(111);
+            abc.setCodigo(246);
             abc.setNome("Banco ABC");
 
             BancoEntity bb = new BancoEntity();
-            bb.setCodigo(222);
+            bb.setCodigo(001);
             bb.setNome("Banco do Brasil");
 
-            BancoEntity seul = new BancoEntity();
-            seul.setCodigo(333);
-            seul.setNome("Banco de Seul");
+            BancoEntity itau = new BancoEntity();
+            itau.setCodigo(341);
+            itau.setNome("Itau");
 
-            bancos = Arrays.asList(abc, bb, seul);
+            BancoEntity snt = new BancoEntity();
+            snt.setCodigo(033);
+            snt.setNome("Santander");
+
+            BancoEntity intr = new BancoEntity();
+            intr.setCodigo(033);
+            intr.setNome("Banco Inter");
+
+
+            bancos = Arrays.asList(abc, bb, itau, snt, intr);
             bancoRepository.saveAll(bancos);
         }
         return bancos;

@@ -20,13 +20,11 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -51,10 +49,10 @@ public class ExtratoServiceTest {
     @BeforeEach
     public void setup() {
         registros = this.montarRegistros();
-        lenient().when(repository.findByDataEfetivaBetween(eq(INI),eq(FIM), eq(PageRequest.of(1,2)))).thenReturn(registros.stream().limit(2).collect(Collectors.toList()));
-        lenient().when(repository.findByDataEfetivaBetween(eq(INI),eq(FIM), eq(Pageable.unpaged()))).thenReturn(registros);
-        lenient().when(repository.findByDataEfetivaBetween(eq(INI),eq(FIM),eq(PageRequest.of(2,2)))).thenReturn(Arrays.asList(registros.get(2)));
-        lenient().when(repository.findByDataEfetivaBetween(eq(INI),eq(FIM), eq(PageRequest.of(3,2)))).thenReturn(Collections.emptyList());
+        lenient().when(repository.findByDataEfetivaBetweenOrderByDataEfetiva(eq(INI),eq(FIM), eq(PageRequest.of(1,2)))).thenReturn(registros.stream().limit(2).collect(Collectors.toList()));
+        lenient().when(repository.findByDataEfetivaBetweenOrderByDataEfetiva(eq(INI),eq(FIM), eq(Pageable.unpaged()))).thenReturn(registros);
+        lenient().when(repository.findByDataEfetivaBetweenOrderByDataEfetiva(eq(INI),eq(FIM),eq(PageRequest.of(2,2)))).thenReturn(Arrays.asList(registros.get(2)));
+        lenient().when(repository.findByDataEfetivaBetweenOrderByDataEfetiva(eq(INI),eq(FIM), eq(PageRequest.of(3,2)))).thenReturn(Collections.emptyList());
     }
 
     @Test
